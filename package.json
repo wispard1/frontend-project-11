@@ -4,7 +4,9 @@
   "description": "[![Actions Status](https://github.com/wispard1/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/wispard1/frontend-project-11/actions)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,8 @@
     "vite": "^7.1.2"
   },
   "dependencies": {
-    "bootstrap": "^5.3.7"
+    "bootstrap": "^5.3.7",
+    "valtio": "^2.1.7",
+    "yup": "^1.7.0"
   }
 }
