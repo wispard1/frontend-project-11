@@ -35,9 +35,6 @@ export default () => {
         state.fields.rssLink = e.target.value;
       });
 
-      const modal = document.getElementById('modal');
-      modal.addEventListener('show.bs.modal', (event) => {});
-
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const rssLink = state.fields.rssLink;
