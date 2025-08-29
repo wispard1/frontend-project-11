@@ -1,29 +1,122 @@
 import createState from './state.js';
 import initView from './view.js';
 import validate from './validate.js';
+import i18next from 'i18next';
+import resources from './locales/ru.json';
+import applyTranslations from './applyTranslation.js';
+import parserRSS from './parserRSS.js';
+import axios from 'axios';
 
 export default () => {
-  const state = createState();
-  initView(state);
+  const i18nextInstance = i18next.createInstance();
+  return i18nextInstance
+    .init({
+      lng: 'ru',
+      resources: {
+        ru: {
+          translation: resources,
+        },
+      },
+    })
+    .then(() => {
+      const state = createState();
+      initView(state, i18nextInstance);
 
-  const input = document.getElementById('url-input');
-  console.log('🔍 input:', input);
-  input.addEventListener('input', (e) => {
-    console.log('🔧 Input event: пользователь ввёл', e.target.value);
-    state.fields.rssLink = e.target.value;
-    console.log('✅ State обновлён: rssLink =', state.fields.rssLink);
-  });
+      const elements = document.querySelectorAll('[data-i18n]');
+      applyTranslations(elements, i18nextInstance);
 
-  const form = document.querySelector('.rss-form');
-  console.log('form:', form)
+      const input = document.getElementById('url-input');
+      const form = document.querySelector('.rss-form');
 
-  if (!form) {
-  console.error('❌ Форма не найдена! Проверь, существует ли она в DOM.');
-}
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const rssLink = state.fields.rssLink;
-    state.form.validationErrors = validate({ rssLink });
-    console.log('🔍 Результат валидации:', state.form.validationErrors);
-  });
+      input.addEventListener('input', (e) => {
+        if (state.loadingProcess.state === 'success') {
+          state.loadingProcess.state = 'filling';
+        }
+        state.fields.rssLink = e.target.value;
+      });
+
+      const modal = document.getElementById('modal')
+      modal.addEventListener('show.bs.modal', (event) => {
+        
+
+      })
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const rssLink = state.fields.rssLink;
+
+        if (state.currentUrl === rssLink) {
+          state.form.validationErrors = {
+            rssLink: 'errors.rssAlreadyExists',
+          };
+          return;
+        }
+        state.form.validationErrors = validate({ rssLink });
+        if (Object.keys(state.form.validationErrors).length > 0) {
+          return;
+        }
+
+        state.loadingProcess.state = 'loading';
+
+        const proxyUrl = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(rssLink)}&cache=false`;
+
+        const loadRSS = () => {
+          axios
+            .get(proxyUrl)
+            .then((responce) => {
+              const xmlString = responce.data.contents;
+              const { feed, posts } = parserRSS(xmlString);
+
+              let counter = 0;
+              const generateId = () => `${Date.now()}-${counter++}`;
+
+              const existingFeed = Object.values(state.feeds).find((f) => f.title === feed.title);
+              const feedId = existingFeed ? existingFeed.id : generateId();
+
+              if (!existingFeed) {
+                state.feeds[feedId] = {
+                  id: feedId,
+                  title: feed.title,
+                  description: feed.description,
+                };
+                console.log('Generated feedId:', feedId);
+              }
+
+              posts.forEach((post) => {
+                const exist = Object.values(state.posts).some((p) => p.link === post.link);
+
+                if (!exist) {
+                  const postId = generateId();
+                  state.posts[postId] = {
+                    id: postId,
+                    title: post.title,
+                    link: post.link,
+                    description: post.description
+                  };
+                  console.log('Generated postId:', postId);
+                }
+              });
+
+              state.fields.rssLink = '';
+              input.value = '';
+              state.currentUrl = rssLink;
+              state.loadingProcess.state = 'success';
+
+              setTimeout(() => {
+                loadRSS();
+              }, 5000);
+            })
+            .catch((err) => {
+              console.error('Ошибка загрузки', err);
+              state.loadingProcess.state = 'failed';
+
+              setTimeout(() => {
+                loadRSS();
+              }, 5000);
+            });
+        };
+
+        loadRSS();
+      });
+    });
 };

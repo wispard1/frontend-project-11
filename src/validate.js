@@ -1,6 +1,5 @@
 // validate.js
 import formSchema from './formSchema.js';
-import keyBy from 'lodash/keyBy';
 
 const validate = (fields) => {
   try {

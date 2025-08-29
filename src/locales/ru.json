@@ -1,0 +1,13 @@
+{
+  "form": {
+    "title": "RSS агрегатор",
+    "par": "Начните читать RSS сегодня! Это легко, это красиво.",
+    "labelForInput": "Ссылка RSS",
+    "button": "Добавить",
+    "success": "RSS успешно загружен"
+  },
+  "errors": {
+    "invalidURL": "Ссылка должна быть валидной",
+    "rssAlreadyExists": "RSS уже существует"
+  }
+}
