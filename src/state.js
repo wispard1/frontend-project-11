@@ -14,7 +14,8 @@ const createState = () => {
     },
     feeds: {},
     posts: {},
-    currentUrl: null
+    currentUrl: null,
+    refreshTimeout: null,
   });
 
   return state;

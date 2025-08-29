@@ -35,15 +35,17 @@ export default () => {
         state.fields.rssLink = e.target.value;
       });
 
-      const modal = document.getElementById('modal')
-      modal.addEventListener('show.bs.modal', (event) => {
-        
-
-      })
+      const modal = document.getElementById('modal');
+      modal.addEventListener('show.bs.modal', (event) => {});
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const rssLink = state.fields.rssLink;
+
+        if (state.refreshTimeout) {
+          clearTimeout(state.refreshTimeout);
+          state.refreshTimeout = null;
+        }
 
         if (state.currentUrl === rssLink) {
           state.form.validationErrors = {
@@ -93,7 +95,7 @@ export default () => {
                     id: postId,
                     title: post.title,
                     link: post.link,
-                    description: post.description
+                    description: post.description,
                   };
                   console.log('Generated postId:', postId);
                 }
@@ -104,7 +106,7 @@ export default () => {
               state.currentUrl = rssLink;
               state.loadingProcess.state = 'success';
 
-              setTimeout(() => {
+              state.refreshTimeout = setTimeout(() => {
                 loadRSS();
               }, 5000);
             })
@@ -112,7 +114,7 @@ export default () => {
               console.error('Ошибка загрузки', err);
               state.loadingProcess.state = 'failed';
 
-              setTimeout(() => {
+              state.refreshTimeout = setTimeout(() => {
                 loadRSS();
               }, 5000);
             });
