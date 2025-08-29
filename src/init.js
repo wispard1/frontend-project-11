@@ -61,9 +61,11 @@ export default () => {
         const proxyUrl = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(rssLink)}&cache=false`;
 
         const loadRSS = () => {
+          console.log('🔄 Проверка обновлений...');
           axios
             .get(proxyUrl)
             .then((responce) => {
+              console.log('✅ Данные получены, парсим...');
               const xmlString = responce.data.contents;
               const { feed, posts } = parserRSS(xmlString);
 
