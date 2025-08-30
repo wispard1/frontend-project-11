@@ -8,6 +8,7 @@
   },
   "errors": {
     "invalidURL": "Ссылка должна быть валидным URL",
+    "invalidRSS": "Ресурс не содержит валидный RSS",
     "rssAlreadyExists": "RSS уже существует"
   }
 }

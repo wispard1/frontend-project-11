@@ -58,7 +58,7 @@ export default () => {
 
         state.loadingProcess.state = 'loading';
 
-        const proxyUrl = addProxy(rssLink)
+        const proxyUrl = addProxy(rssLink);
 
         const loadRSS = () => {
           console.log('🔄 Проверка обновлений...');
@@ -67,7 +67,19 @@ export default () => {
             .then((responce) => {
               console.log('✅ Данные получены, парсим...');
               const xmlString = responce.data.contents;
-              const { feed, posts } = parserRSS(xmlString);
+
+              let parsed;
+              try {
+                parsed = parserRSS(xmlString);
+              } catch (error) {
+                console.log('Ошибка парсинга RSS:', error);
+                state.loadingProcess.state = 'failed';
+                state.form.validationErrors = {
+                  rssLink: 'errors.invalidRSS',
+                };
+                return;
+              }
+              const { feed, posts } = parsed
 
               let counter = 0;
               const generateId = () => `${Date.now()}-${counter++}`;
@@ -104,7 +116,7 @@ export default () => {
               state.currentUrl = rssLink;
               state.loadingProcess.state = 'success';
 
-              state.refreshTimeout = setTimeout(() => {
+              setTimeout(() => {
                 loadRSS();
               }, 5000);
             })
@@ -112,7 +124,7 @@ export default () => {
               console.error('Ошибка загрузки', err);
               state.loadingProcess.state = 'failed';
 
-              state.refreshTimeout = setTimeout(() => {
+              setTimeout(() => {
                 loadRSS();
               }, 5000);
             });
