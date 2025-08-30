@@ -83,7 +83,7 @@ export default () => {
               let counter = 0
               const generateId = () => `${Date.now()}-${counter++}`
 
-              const existingFeed = Object.values(state.feeds).find((f) => f.title === feed.title)
+              const existingFeed = Object.values(state.feeds).find(f => f.title === feed.title)
               const feedId = existingFeed ? existingFeed.id : generateId()
 
               if (!existingFeed) {
@@ -96,7 +96,7 @@ export default () => {
               }
 
               posts.forEach((post) => {
-                const exist = Object.values(state.posts).some((p) => p.link === post.link)
+                const exist = Object.values(state.posts).some(p => p.link === post.link)
 
                 if (!exist) {
                   const postId = generateId()
@@ -127,7 +127,8 @@ export default () => {
                 state.form.validationErrors = {
                   rssLink: 'errors.networkError',
                 }
-              } else {
+              } 
+              else {
                 state.form.validationErrors = {
                   rssLink: 'errors.invalidRSS',
                 }
