@@ -1,4 +1,4 @@
-import { proxy } from 'valtio/vanilla';
+import { proxy } from 'valtio/vanilla'
 
 const createState = () => {
   const state = proxy({
@@ -14,9 +14,9 @@ const createState = () => {
     feeds: {},
     posts: {},
     currentUrl: null,
-  });
+  })
 
-  return state;
-};
+  return state
+}
 
-export default createState;
+export default createState

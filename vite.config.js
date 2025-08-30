@@ -5,4 +5,4 @@ export default {
       usePolling: true,
     },
   },
-};
+}

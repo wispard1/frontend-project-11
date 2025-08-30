@@ -1,7 +1,7 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
 
 const formSchema = yup.object({
   rssLink: yup.string().url('errors.invalidURL'),
-});
+})
 
-export default formSchema;
+export default formSchema

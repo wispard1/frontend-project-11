@@ -1,86 +1,86 @@
-import { subscribe, snapshot } from 'valtio/vanilla';
-import createViewButton from './createViewButton';
+import { subscribe, snapshot } from 'valtio/vanilla'
+import createViewButton from './createViewButton'
 
 const initView = (state, i18nextInstance) => {
-  let errorElement = null;
+  let errorElement = null
   const render = () => {
-    const obj = snapshot(state);
-    const { validationErrors } = obj.form;
-    const { rssLink } = obj.fields;
-    const { loadingProcess: processState } = obj;
+    const obj = snapshot(state)
+    const { validationErrors } = obj.form
+    const { rssLink } = obj.fields
+    const { loadingProcess: processState } = obj
 
-    const button = document.querySelector('[data-i18n="form.button"]');
+    const button = document.querySelector('[data-i18n="form.button"]')
 
     switch (processState.state) {
       case 'loading':
-        button.disabled = true;
-        button.textContent = 'Загрузка...';
-        break;
+        button.disabled = true
+        button.textContent = 'Загрузка...'
+        break
       case 'filling':
       case 'success':
       case 'failed':
       default:
-        button.disabled = false;
-        button.textContent = i18nextInstance.t('form.button');
-        break;
+        button.disabled = false
+        button.textContent = i18nextInstance.t('form.button')
+        break
     }
 
-    const input = document.getElementById('url-input');
-    input.value = rssLink;
+    const input = document.getElementById('url-input')
+    input.value = rssLink
 
     if (errorElement) {
-      errorElement.remove();
-      errorElement = null;
+      errorElement.remove()
+      errorElement = null
     }
 
-    const exampleURL = document.getElementById('example-url');
+    const exampleURL = document.getElementById('example-url')
 
-    const errorMessages = Object.values(validationErrors);
+    const errorMessages = Object.values(validationErrors)
 
     if (errorMessages.length > 0) {
-      errorElement = document.createElement('p');
+      errorElement = document.createElement('p')
       errorElement.classList.add(
         'feedback',
         'm-0',
         'position-absolute',
         'small',
         'text-danger'
-      );
+      )
 
-      errorElement.textContent = i18nextInstance.t(errorMessages[0]);
-      exampleURL.appendChild(errorElement);
+      errorElement.textContent = i18nextInstance.t(errorMessages[0])
+      exampleURL.appendChild(errorElement)
 
-      input.classList.add('is-invalid');
+      input.classList.add('is-invalid')
     } else if (processState.state === 'success') {
-      errorElement = document.createElement('p');
+      errorElement = document.createElement('p')
       errorElement.classList.add(
         'feedback',
         'm-0',
         'position-absolute',
         'small',
         'text-success'
-      );
+      )
 
-      errorElement.textContent = i18nextInstance.t('form.success');
-      exampleURL.appendChild(errorElement);
-      input.classList.remove('is-invalid');
+      errorElement.textContent = i18nextInstance.t('form.success')
+      exampleURL.appendChild(errorElement)
+      input.classList.remove('is-invalid')
     } else {
-      input.classList.remove('is-invalid');
+      input.classList.remove('is-invalid')
     }
 
-    const appContainer = document.querySelector('main');
+    const appContainer = document.querySelector('main')
 
-    const oldSection = document.querySelector('.container-xxl');
+    const oldSection = document.querySelector('.container-xxl')
     if (oldSection) {
-      oldSection.remove();
+      oldSection.remove()
     }
 
-    const hasPosts = Object.keys(obj.posts).length > 0;
-    const hasFeeds = Object.keys(obj.feeds).length > 0;
+    const hasPosts = Object.keys(obj.posts).length > 0
+    const hasFeeds = Object.keys(obj.feeds).length > 0
 
     if (hasFeeds || hasPosts) {
-      const layoutSection = document.createElement('section');
-      layoutSection.className = 'container-fluid container-xxl p-5';
+      const layoutSection = document.createElement('section')
+      layoutSection.className = 'container-fluid container-xxl p-5'
 
       layoutSection.innerHTML = `
     <div class="row">
@@ -98,35 +98,35 @@ const initView = (state, i18nextInstance) => {
         </div>
       </div>
     </div>
-  `;
+  `
 
-      appContainer.appendChild(layoutSection);
+      appContainer.appendChild(layoutSection)
 
-      const feedsContainer = document.querySelector('.feeds .list-group');
-      const postsContainer = document.querySelector('.posts .list-group');
+      const feedsContainer = document.querySelector('.feeds .list-group')
+      const postsContainer = document.querySelector('.posts .list-group')
 
-      feedsContainer.innerHTML = '';
-      postsContainer.innerHTML = '';
+      feedsContainer.innerHTML = ''
+      postsContainer.innerHTML = ''
 
       Object.values(obj.feeds).forEach(feed => {
-        const feedItem = document.createElement('li');
-        feedItem.classList.add('list-group-item', 'border-0', 'border-end-0');
+        const feedItem = document.createElement('li')
+        feedItem.classList.add('list-group-item', 'border-0', 'border-end-0')
 
-        const title = document.createElement('h3');
-        title.classList.add('h6', 'm-0');
-        title.textContent = feed.title;
+        const title = document.createElement('h3')
+        title.classList.add('h6', 'm-0')
+        title.textContent = feed.title
 
-        const description = document.createElement('p');
-        description.classList.add('m-0', 'small', 'text-black-50');
-        description.textContent = feed.description;
+        const description = document.createElement('p')
+        description.classList.add('m-0', 'small', 'text-black-50')
+        description.textContent = feed.description
 
-        feedItem.appendChild(title);
-        feedItem.appendChild(description);
-        feedsContainer.appendChild(feedItem);
-      });
+        feedItem.appendChild(title)
+        feedItem.appendChild(description)
+        feedsContainer.appendChild(feedItem)
+      })
 
       Object.values(obj.posts).forEach(post => {
-        const postItem = document.createElement('li');
+        const postItem = document.createElement('li')
         postItem.classList.add(
           'list-group-item',
           'd-flex',
@@ -134,34 +134,34 @@ const initView = (state, i18nextInstance) => {
           'align-items-start',
           'border-0',
           'border-end-0'
-        );
+        )
 
-        const link = document.createElement('a');
-        link.href = post.link;
-        link.classList.add(post.read ? 'fw-normal' : 'fw-bold');
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.textContent = post.title;
+        const link = document.createElement('a')
+        link.href = post.link
+        link.classList.add(post.read ? 'fw-normal' : 'fw-bold')
+        link.target = '_blank'
+        link.rel = 'noopener noreferrer'
+        link.textContent = post.title
 
         if (post.read) {
-          link.classList.add('fw-normal');
+          link.classList.add('fw-normal')
         } else {
-          link.classList.add('fw-bold');
+          link.classList.add('fw-bold')
         }
 
-        postItem.appendChild(link);
+        postItem.appendChild(link)
         postItem.appendChild(
           createViewButton(state, post.id, {
             title: post.title,
             description: post.description,
           })
-        );
-        postsContainer.appendChild(postItem);
-      });
+        )
+        postsContainer.appendChild(postItem)
+      })
     }
-  };
-  subscribe(state, render);
+  }
+  subscribe(state, render)
 
-  render();
-};
-export default initView;
+  render()
+}
+export default initView
