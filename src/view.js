@@ -5,9 +5,9 @@ const initView = (state, i18nextInstance) => {
   let errorElement = null;
   const render = () => {
     const obj = snapshot(state);
-    const { validationErrors, isValid } = obj.form;
+    const { validationErrors } = obj.form;
     const { rssLink } = obj.fields;
-    const { loadingProcess: processState, feeds, posts } = obj;
+    const { loadingProcess: processState } = obj;
 
     const button = document.querySelector('[data-i18n="form.button"]');
 
@@ -39,7 +39,13 @@ const initView = (state, i18nextInstance) => {
 
     if (errorMessages.length > 0) {
       errorElement = document.createElement('p');
-      errorElement.classList.add('feedback', 'm-0', 'position-absolute', 'small', 'text-danger');
+      errorElement.classList.add(
+        'feedback',
+        'm-0',
+        'position-absolute',
+        'small',
+        'text-danger'
+      );
 
       errorElement.textContent = i18nextInstance.t(errorMessages[0]);
       exampleURL.appendChild(errorElement);
@@ -47,7 +53,13 @@ const initView = (state, i18nextInstance) => {
       input.classList.add('is-invalid');
     } else if (processState.state === 'success') {
       errorElement = document.createElement('p');
-      errorElement.classList.add('feedback', 'm-0', 'position-absolute', 'small', 'text-success');
+      errorElement.classList.add(
+        'feedback',
+        'm-0',
+        'position-absolute',
+        'small',
+        'text-success'
+      );
 
       errorElement.textContent = i18nextInstance.t('form.success');
       exampleURL.appendChild(errorElement);
@@ -96,7 +108,7 @@ const initView = (state, i18nextInstance) => {
       feedsContainer.innerHTML = '';
       postsContainer.innerHTML = '';
 
-      Object.values(obj.feeds).forEach((feed) => {
+      Object.values(obj.feeds).forEach(feed => {
         const feedItem = document.createElement('li');
         feedItem.classList.add('list-group-item', 'border-0', 'border-end-0');
 
@@ -113,7 +125,7 @@ const initView = (state, i18nextInstance) => {
         feedsContainer.appendChild(feedItem);
       });
 
-      Object.values(obj.posts).forEach((post) => {
+      Object.values(obj.posts).forEach(post => {
         const postItem = document.createElement('li');
         postItem.classList.add(
           'list-group-item',
