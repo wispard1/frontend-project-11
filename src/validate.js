@@ -11,4 +11,3 @@ const validate = (fields) => {
 };
 
 export default validate;
-

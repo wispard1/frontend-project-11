@@ -79,7 +79,7 @@ export default () => {
                 };
                 return;
               }
-              const { feed, posts } = parsed
+              const { feed, posts } = parsed;
 
               let counter = 0;
               const generateId = () => `${Date.now()}-${counter++}`;
@@ -126,12 +126,12 @@ export default () => {
 
               if (err.message.includes('Network Error') || err.code === 'ERR_NETWORK') {
                 state.form.validationErrors = {
-                  rssLink: 'errors.networkError'
-                }
+                  rssLink: 'errors.networkError',
+                };
               } else {
                 state.form.validationErrors = {
-                  rssLink: 'errors.invalidRSS'
-                }
+                  rssLink: 'errors.invalidRSS',
+                };
               }
 
               setTimeout(() => {

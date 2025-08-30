@@ -1,10 +1,12 @@
 # RSS Агрегатор
+
 [![Actions Status](https://github.com/wispard1/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/wispard1/frontend-project-11/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=wispard1_frontend-project-11&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=wispard1_frontend-project-11)
 
 ## О проекте
 
 **RSS Агрегатор** — веб-приложение, которое позволяет:
+
 - Добавлять RSS-ленты по ссылке
 - Просматривать список постов и фидов
 - Следить за обновлениями в реальном времени
@@ -33,3 +35,4 @@ cd frontend-project-11
 
 npm install
 npm start
+```

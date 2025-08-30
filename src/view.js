@@ -141,7 +141,7 @@ const initView = (state, i18nextInstance) => {
         postItem.appendChild(
           createViewButton(state, post.id, {
             title: post.title,
-            description: post.description
+            description: post.description,
           })
         );
         postsContainer.appendChild(postItem);
