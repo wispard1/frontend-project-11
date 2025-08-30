@@ -71,8 +71,7 @@ export default () => {
               let parsed
               try {
                 parsed = parserRSS(xmlString)
-              } catch (error) {
-                // console.log('Ошибка парсинга RSS:', error)
+              } catch {
                 state.loadingProcess.state = 'failed'
                 state.form.validationErrors = {
                   rssLink: 'errors.invalidRSS',
