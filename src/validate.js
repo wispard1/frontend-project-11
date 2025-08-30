@@ -7,7 +7,7 @@ const validate = (fields) => {
   }
   catch (e) {
     return Object.fromEntries(
-      e.inner.map(error => [error.path, error.message,])
+      e.inner.map(error => [error.path, error.message]),
     )
   }
 }

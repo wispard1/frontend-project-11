@@ -1,4 +1,4 @@
-import stylistic from '@stylistic/eslint-plugin'
+import stylistic from '@stylistic/eslint-plugin';
 
 export default [
   {
@@ -10,11 +10,11 @@ export default [
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/brace-style': 'off',
       '@stylistic/arrow-parens': 'off',
-      '@stylistic/comma-dangle': ['error', 'always-multiline'],
+      '@stylistic/comma-dangle': 'off',
       'comma-dangle': 'off',
 
       'no-console': 'warn',
       'no-unused-vars': 'warn',
     },
   },
-]
+];
