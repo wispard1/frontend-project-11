@@ -3,7 +3,6 @@ import { proxy } from 'valtio/vanilla';
 const createState = () => {
   const state = proxy({
     form: {
-      isValid: true,
       validationErrors: [],
     },
     loadingProcess: {

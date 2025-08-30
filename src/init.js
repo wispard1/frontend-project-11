@@ -6,6 +6,7 @@ import resources from './locales/ru.json';
 import applyTranslations from './applyTranslation.js';
 import parserRSS from './parserRSS.js';
 import axios from 'axios';
+import addProxy from './addProxy.js';
 
 export default () => {
   const i18nextInstance = i18next.createInstance();
@@ -57,7 +58,7 @@ export default () => {
 
         state.loadingProcess.state = 'loading';
 
-        const proxyUrl = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(rssLink)}&cache=false`;
+        const proxyUrl = addProxy(rssLink)
 
         const loadRSS = () => {
           console.log('🔄 Проверка обновлений...');
