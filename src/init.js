@@ -71,7 +71,7 @@ export default () => {
               let parsed
               try {
                 parsed = parserRSS(xmlString)
-              } 
+              }
               catch {
                 state.loadingProcess.state = 'failed'
                 state.form.validationErrors = {
