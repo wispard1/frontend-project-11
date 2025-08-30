@@ -71,7 +71,8 @@ export default () => {
               let parsed
               try {
                 parsed = parserRSS(xmlString)
-              } catch {
+              } 
+              catch {
                 state.loadingProcess.state = 'failed'
                 state.form.validationErrors = {
                   rssLink: 'errors.invalidRSS',
@@ -127,7 +128,7 @@ export default () => {
                 state.form.validationErrors = {
                   rssLink: 'errors.networkError',
                 }
-              } 
+              }
               else {
                 state.form.validationErrors = {
                   rssLink: 'errors.invalidRSS',

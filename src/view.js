@@ -45,7 +45,7 @@ const initView = (state, i18nextInstance) => {
       exampleURL.appendChild(errorElement)
 
       input.classList.add('is-invalid')
-    } 
+    }
     else if (processState.state === 'success') {
       errorElement = document.createElement('p')
       errorElement.classList.add('feedback', 'm-0', 'position-absolute', 'small', 'text-success')
@@ -53,7 +53,7 @@ const initView = (state, i18nextInstance) => {
       errorElement.textContent = i18nextInstance.t('form.success')
       exampleURL.appendChild(errorElement)
       input.classList.remove('is-invalid')
-    } 
+    }
     else {
       input.classList.remove('is-invalid')
     }
@@ -135,7 +135,7 @@ const initView = (state, i18nextInstance) => {
 
         if (post.read) {
           link.classList.add('fw-normal')
-        } 
+        }
         else {
           link.classList.add('fw-bold')
         }
@@ -144,7 +144,7 @@ const initView = (state, i18nextInstance) => {
         postItem.appendChild(
           createViewButton(state, post.id, {
             title: post.title,
-            description: post.description
+            description: post.description,
           })
         )
         postsContainer.appendChild(postItem)
