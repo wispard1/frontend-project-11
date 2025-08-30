@@ -124,6 +124,16 @@ export default () => {
               console.error('Ошибка загрузки', err);
               state.loadingProcess.state = 'failed';
 
+              if (err.message.includes('Network Error') || err.code === 'ERR_NETWORK') {
+                state.form.validationErrors = {
+                  rssLink: 'errors.networkError'
+                }
+              } else {
+                state.form.validationErrors = {
+                  rssLink: 'errors.invalidRSS'
+                }
+              }
+
               setTimeout(() => {
                 loadRSS();
               }, 5000);
